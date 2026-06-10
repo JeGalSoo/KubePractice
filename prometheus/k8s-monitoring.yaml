@@ -1,0 +1,165 @@
+# ============================================================
+#  Prometheus + Grafana Kubernetes 배포 파일
+#  적용: kubectl apply -f prometheus/k8s-monitoring.yaml
+# ============================================================
+
+# --- 1. Prometheus 설정을 ConfigMap으로 등록 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+      evaluation_interval: 15s
+
+    scrape_configs:
+      - job_name: 'backend'
+        metrics_path: '/actuator/prometheus'
+        static_configs:
+          - targets: ['backend:8080']
+
+      - job_name: 'chat-server'
+        metrics_path: '/actuator/prometheus'
+        static_configs:
+          - targets: ['chat-server:8081']
+
+      - job_name: 'gateway-server'
+        metrics_path: '/actuator/prometheus'
+        static_configs:
+          - targets: ['gateway-server:8000']
+
+---
+# --- 2. Prometheus Deployment ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      containers:
+        - name: prometheus
+          image: prom/prometheus:latest
+          args:
+            - "--config.file=/etc/prometheus/prometheus.yml"
+          ports:
+            - containerPort: 9090
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "300m"
+              memory: "512Mi"
+          volumeMounts:
+            - name: prometheus-config-vol
+              mountPath: /etc/prometheus
+      volumes:
+        - name: prometheus-config-vol
+          configMap:
+            name: prometheus-config
+
+---
+# --- 3. Prometheus Service (ClusterIP — 내부 통신 + NodePort로 외부 접근) ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+spec:
+  type: NodePort
+  selector:
+    app: prometheus
+  ports:
+    - protocol: TCP
+      port: 9090
+      targetPort: 9090
+      nodePort: 30090   # 브라우저: http://localhost:30090
+
+---
+# --- 4. Grafana Deployment ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+        - name: grafana
+          image: grafana/grafana:latest
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "300m"
+              memory: "512Mi"
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              value: "admin"
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              value: "admin"
+            # Prometheus 데이터소스 자동 프로비저닝
+            - name: GF_PATHS_PROVISIONING
+              value: "/etc/grafana/provisioning"
+          volumeMounts:
+            - name: grafana-datasource
+              mountPath: /etc/grafana/provisioning/datasources
+      volumes:
+        - name: grafana-datasource
+          configMap:
+            name: grafana-datasource-config
+
+---
+# --- 5. Grafana 데이터소스 자동 프로비저닝 ConfigMap ---
+#  이 설정 덕분에 Grafana 최초 실행 시 Prometheus 연동이 자동으로 완료됩니다.
+#  (MONITORING_SETUP.md의 수동 설정 단계 불필요)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasource-config
+data:
+  datasource.yaml: |
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        access: proxy
+        # K8s 내부 서비스 DNS: prometheus 서비스명 사용
+        url: http://prometheus:9090
+        isDefault: true
+        editable: false
+
+---
+# --- 6. Grafana Service (NodePort으로 외부 접근) ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+spec:
+  type: NodePort
+  selector:
+    app: grafana
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30030   # 브라우저: http://localhost:30030

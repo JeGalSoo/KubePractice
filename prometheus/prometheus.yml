@@ -1,0 +1,39 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+# ============================================================
+# 🔀 환경 전환 안내
+#
+# [로컬 Docker Compose]  → host.docker.internal:포트 사용
+# [Kubernetes]           → K8s 서비스 내부 DNS 이름 사용
+#                           (prometheus가 K8s 네임스페이스 내에 배포되어 있어야 함)
+#
+# 현재 설정: Kubernetes 환경 기준
+# 로컬 환경으로 전환 시 targets를 아래 주석으로 교체하세요.
+# ============================================================
+
+scrape_configs:
+  - job_name: 'backend'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      # [K8s] K8s Service DNS 이름으로 직접 스크랩
+      - targets: ['backend:8080']
+      # [로컬 Docker Compose] 아래 줄로 교체
+      # - targets: ['host.docker.internal:8080']
+
+  - job_name: 'chat-server'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      # [K8s]
+      - targets: ['chat-server:8081']
+      # [로컬 Docker Compose]
+      # - targets: ['host.docker.internal:8081']
+
+  - job_name: 'gateway-server'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      # [K8s]
+      - targets: ['gateway-server:8000']
+      # [로컬 Docker Compose]
+      # - targets: ['host.docker.internal:8000']

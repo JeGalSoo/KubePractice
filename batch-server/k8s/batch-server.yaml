@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: batch-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: batch-server
+  template:
+    metadata:
+      labels:
+        app: batch-server
+    spec:
+      containers:
+        - name: batch-server
+          image: batch-server:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8082
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "300m"
+              memory: "512Mi"
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "dev"
+            - name: SPRING_CONFIG_IMPORT
+              value: "optional:configserver:http://config-server:8888"
+            - name: SPRING_DATASOURCE_MAIN_JDBC_URL
+              value: "jdbc:mysql://host.docker.internal:3306/authdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul"
+            - name: SPRING_DATASOURCE_ARCHIVE_JDBC_URL
+              value: "jdbc:mysql://host.docker.internal:3307/archivedb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: batch-server
+spec:
+  selector:
+    app: batch-server
+  ports:
+    - protocol: TCP
+      port: 8082
+      targetPort: 8082

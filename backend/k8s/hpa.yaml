@@ -1,0 +1,23 @@
+# ⚠️  LEGACY FILE — 사용하지 않는 파일입니다.
+# 현재 HPA 설정은 backend.yaml 안에 통합되어 있습니다.
+# 이 파일은 초기 개발 단계의 잔재이며, 참조 목적으로만 보존합니다.
+# 실제 적용: backend/k8s/backend.yaml 의 HorizontalPodAutoscaler 섹션을 확인하세요.
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: auth-backend-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: auth-backend
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70

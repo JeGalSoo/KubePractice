@@ -1,0 +1,6 @@
+﻿src/api/boardApi.ts(2,10): error TS1484: 'Board' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/api/boardApi.ts(2,17): error TS1484: 'BoardRequestDto' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/api/boardApi.ts(2,34): error TS1484: 'Page' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/pages/BoardDetailPage.tsx(4,10): error TS1484: 'Board' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/pages/BoardListPage.tsx(4,10): error TS1484: 'Board' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/pages/BoardListPage.tsx(4,17): error TS1484: 'Page' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.

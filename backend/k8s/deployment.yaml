@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-backend
+  labels:
+    app: auth-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-backend
+  template:
+    metadata:
+      labels:
+        app: auth-backend
+    spec:
+      containers:
+        - name: auth-backend
+          image: auth-backend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "500m"
+              memory: "1024Mi"
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod"

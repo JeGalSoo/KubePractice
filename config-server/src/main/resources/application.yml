@@ -1,0 +1,14 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        native:
+          # Points to the absolute path of the config-repo directory
+          search-locations: file:/D:/portfolioForJobChage/config-repo
+  profiles:
+    active: native

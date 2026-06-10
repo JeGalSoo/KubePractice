@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: batch-server
+  config:
+    import: "optional:configserver:http://localhost:8888"
