@@ -37,8 +37,8 @@ React 프론트엔드와 Spring Boot 기반의 분산 백엔드 서버로 구성
 *   **Container:** Docker, Docker Compose
 
 ### Monitoring & DevOps
-*   Prometheus, Grafana
 *   Spring Boot Actuator, AOP 기반 커스텀 성능 로깅
+*   Prometheus, Grafana *(인프라 설정 완료 / 대시보드 구성 추후 추가 예정)*
 
 ---
 
@@ -57,7 +57,7 @@ React 프론트엔드와 Spring Boot 기반의 분산 백엔드 서버로 구성
     *   Elasticsearch와 Nori 플러그인을 활용한 고성능 풀텍스트 검색(Full-text Search) 기능
 4.  **성능 모니터링 및 로깅 (Monitoring & Logging)**
     *   AOP(Aspect Oriented Programming)를 적용하여 비즈니스 로직 침범 없이 전 구간 DB 쿼리 및 메서드 실행 시간 측정
-    *   Prometheus와 Grafana를 연동하여 실시간 시스템 리소스, API 응답 시간 및 트래픽 모니터링 대시보드 구축
+    *   Prometheus, Grafana 컨테이너 및 설정 파일(`prometheus.yml`) 구성 완료. Grafana 대시보드 연동은 추후 추가 예정
 
 ---
 
@@ -100,6 +100,7 @@ React 프론트엔드와 Spring Boot 기반의 분산 백엔드 서버로 구성
 ---
 
 ## 📈 향후 개선 계획 (Future Work)
+*   **모니터링 대시보드 구축:** Prometheus & Grafana 컨테이너는 구성 완료. 실시간 시스템 리소스, API 응답 시간 및 트래픽 모니터링 Grafana 대시보드 구성 예정
 *   **Resilience4j Circuit Breaker 적용:** Kafka 연동 구간 및 외부 API 호출 시 장애 전파를 차단하는 서킷 브레이커 패턴 구현
 *   **CI/CD 파이프라인 구축:** GitHub Actions와 Docker를 활용한 자동 빌드 및 배포 자동화 구현
 *   **Config Server Git 저장소 전환:** 현재 `native`(로컬 파일) 방식에서 Git 저장소 방식으로 전환하여 설정 변경 이력 관리 및 롤백 기능 확보

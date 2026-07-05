@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>백엔드 개발자 포트폴리오 | MSA 기반 실시간 웹 서비스</title>
+  <meta name="description" content="대규모 트래픽 처리와 실시간 통신을 위한 MSA 기반 웹 서비스 포트폴리오. Spring Boot, Kubernetes, Kafka, Redis, Elasticsearch 활용." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo">
+        <span class="logo-bracket">&lt;</span>Dev<span class="logo-slash">/</span><span class="logo-bracket">&gt;</span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#about" class="nav-link">소개</a></li>
+        <li><a href="#architecture" class="nav-link">아키텍처</a></li>
+        <li><a href="#features" class="nav-link">핵심 기능</a></li>
+        <li><a href="#stack" class="nav-link">기술 스택</a></li>
+        <li><a href="#trouble" class="nav-link">트러블슈팅</a></li>
+        <li><a href="#k8s" class="nav-link">Kubernetes</a></li>
+        <li><a href="#contact" class="nav-link contact-btn">Contact</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="grid-overlay"></div>
+      <div class="glow glow-1"></div>
+      <div class="glow glow-2"></div>
+      <div class="particles" id="particles"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span>Backend Engineer · MSA Specialist</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="title-line">대규모 트래픽 &amp;</span>
+        <span class="title-line gradient-text">실시간 처리를 위한</span>
+        <span class="title-line">MSA 기반 웹 서비스</span>
+      </h1>
+      <p class="hero-desc">
+        Spring Boot · Kubernetes · Kafka · Redis · Elasticsearch<br />
+        분산 환경에서의 깊은 트러블슈팅 경험과 성능 최적화 역량
+      </p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-number" data-target="271">0</div>
+          <div class="stat-unit">RPS</div>
+          <div class="stat-label">최고 처리량</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-number" data-target="5">0</div>
+          <div class="stat-unit">개</div>
+          <div class="stat-label">마이크로서비스</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-number" data-target="13">0</div>
+          <div class="stat-unit">건</div>
+          <div class="stat-label">트러블슈팅 해결</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-number" data-target="0">0</div>
+          <div class="stat-unit">%</div>
+          <div class="stat-label">최종 에러율</div>
+        </div>
+      </div>
+      <div class="hero-cta">
+        <a href="#architecture" class="btn btn-primary" id="cta-arch">
+          <span>아키텍처 보기</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#trouble" class="btn btn-outline" id="cta-trouble">
+          <span>트러블슈팅 스토리</span>
+        </a>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- About / Project Overview -->
+  <section class="section about" id="about">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">About Project</div>
+        <h2 class="section-title">프로젝트 개요</h2>
+        <p class="section-desc">단일 모놀리식 서버의 한계를 극복하고, 실제 대규모 서비스를 운영하는 방식으로 설계된 MSA 기반 웹 애플리케이션입니다.</p>
+      </div>
+      <div class="about-grid">
+        <div class="about-card" id="about-c1">
+          <div class="about-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          </div>
+          <h3>MSA 아키텍처</h3>
+          <p>5개의 독립적인 마이크로서비스로 구성하여 각 서비스의 독립적 배포 및 스케일링을 구현했습니다.</p>
+        </div>
+        <div class="about-card" id="about-c2">
+          <div class="about-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <h3>실시간 채팅</h3>
+          <p>WebFlux + WebSocket + Kafka 조합으로 논블로킹 고성능 실시간 채팅 시스템을 독립 서버로 분리 운용합니다.</p>
+        </div>
+        <div class="about-card" id="about-c3">
+          <div class="about-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <h3>고성능 검색</h3>
+          <p>Elasticsearch + Nori 한글 형태소 분석기로 LIKE 쿼리 대비 압도적인 풀텍스트 검색 성능을 달성했습니다.</p>
+        </div>
+        <div class="about-card" id="about-c4">
+          <div class="about-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h3>성능 모니터링</h3>
+          <p>AOP 기반 커스텀 성능 로깅과 Prometheus + Grafana로 시스템 전 구간 실시간 모니터링을 구축했습니다.</p>
+        </div>
+        <div class="about-card" id="about-c5">
+          <div class="about-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3>Kubernetes 배포</h3>
+          <p>K8s HPA 오토스케일링으로 트래픽 폭증 시 자동 확장되는 무중단 운영 환경을 구축하고 부하테스트로 검증했습니다.</p>
+        </div>
+        <div class="about-card" id="about-c6">
+          <div class="about-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </div>
+          <h3>심층 트러블슈팅</h3>
+          <p>AOP-트랜잭션 충돌, Kafka 타임아웃, HikariCP 데드락, ES Race Condition 등 복합적인 장애를 스스로 진단하고 해결했습니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture Section -->
+  <section class="section architecture" id="architecture">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">System Design</div>
+        <h2 class="section-title">시스템 아키텍처</h2>
+        <p class="section-desc">단일 진입점(API Gateway)부터 분산 인프라까지, 확장성과 고가용성을 고려한 설계입니다.</p>
+      </div>
+      <div class="arch-diagram">
+        <!-- Client -->
+        <div class="arch-row">
+          <div class="arch-node client-node" id="arch-client">
+            <div class="arch-icon">🌐</div>
+            <div class="arch-label">React Frontend</div>
+            <div class="arch-sub">Vite + TypeScript</div>
+          </div>
+        </div>
+        <!-- Arrow down -->
+        <div class="arch-arrow-wrap"><div class="arch-arrow arch-arrow-down">↓ HTTP/WebSocket</div></div>
+        <!-- Nginx -->
+        <div class="arch-row">
+          <div class="arch-node nginx-node" id="arch-nginx">
+            <div class="arch-icon">⚡</div>
+            <div class="arch-label">Nginx</div>
+            <div class="arch-sub">Reverse Proxy</div>
+          </div>
+        </div>
+        <div class="arch-arrow-wrap"><div class="arch-arrow arch-arrow-down">↓ Route</div></div>
+        <!-- Gateway -->
+        <div class="arch-row">
+          <div class="arch-node gateway-node" id="arch-gateway">
+            <div class="arch-icon">🔀</div>
+            <div class="arch-label">API Gateway</div>
+            <div class="arch-sub">Spring Cloud Gateway · Port 8000</div>
+          </div>
+        </div>
+        <div class="arch-arrow-wrap arch-arrow-split">
+          <span class="split-label">/api/**</span>
+          <div class="split-lines">
+            <span></span><span></span><span></span>
+          </div>
+          <span class="split-label">/ws/**</span>
+        </div>
+        <!-- Services Row -->
+        <div class="arch-services-row">
+          <div class="arch-service-col">
+            <div class="arch-node config-node" id="arch-config">
+              <div class="arch-icon">⚙️</div>
+              <div class="arch-label">Config Server</div>
+              <div class="arch-sub">Spring Cloud Config · 8888</div>
+            </div>
+          </div>
+          <div class="arch-service-col">
+            <div class="arch-node backend-node" id="arch-backend">
+              <div class="arch-icon">🖥️</div>
+              <div class="arch-label">Backend API</div>
+              <div class="arch-sub">Spring Boot · 8080</div>
+            </div>
+          </div>
+          <div class="arch-service-col">
+            <div class="arch-node chat-node" id="arch-chat">
+              <div class="arch-icon">💬</div>
+              <div class="arch-label">Chat Server</div>
+              <div class="arch-sub">WebFlux/Netty · 8081</div>
+            </div>
+          </div>
+          <div class="arch-service-col">
+            <div class="arch-node batch-node" id="arch-batch">
+              <div class="arch-icon">📦</div>
+              <div class="arch-label">Batch Server</div>
+              <div class="arch-sub">Spring Batch</div>
+            </div>
+          </div>
+        </div>
+        <!-- Arrow down -->
+        <div class="arch-arrow-wrap"><div class="arch-arrow arch-arrow-down">↓ Infrastructure</div></div>
+        <!-- Infrastructure Row -->
+        <div class="arch-infra-row">
+          <div class="infra-node mysql-node" id="infra-mysql">
+            <div class="infra-icon">🗄️</div>
+            <div class="infra-label">MySQL</div>
+            <div class="infra-sub">Primary + Archive</div>
+          </div>
+          <div class="infra-node redis-node" id="infra-redis">
+            <div class="infra-icon">⚡</div>
+            <div class="infra-label">Redis</div>
+            <div class="infra-sub">Cache + Session</div>
+          </div>
+          <div class="infra-node kafka-node" id="infra-kafka">
+            <div class="infra-icon">📨</div>
+            <div class="infra-label">Kafka</div>
+            <div class="infra-sub">Message Broker</div>
+          </div>
+          <div class="infra-node es-node" id="infra-es">
+            <div class="infra-icon">🔍</div>
+            <div class="infra-label">Elasticsearch</div>
+            <div class="infra-sub">Nori Analyzer</div>
+          </div>
+          <div class="infra-node monitoring-node" id="infra-monitoring">
+            <div class="infra-icon">📊</div>
+            <div class="infra-label">Prometheus</div>
+            <div class="infra-sub">+ Grafana</div>
+          </div>
+        </div>
+        <!-- K8s Badge -->
+        <div class="k8s-badge">
+          <span>☸️ Kubernetes + HPA Autoscaling</span>
+        </div>
+      </div>
+
+      <!-- Architecture flow cards -->
+      <div class="flow-cards">
+        <div class="flow-card" id="flow-1">
+          <div class="flow-num">01</div>
+          <h4>단일 진입점</h4>
+          <p>모든 클라이언트 요청은 API Gateway를 통해 적절한 서비스로 라우팅됩니다. WebSocket 트래픽도 Gateway에서 통합 처리.</p>
+        </div>
+        <div class="flow-card" id="flow-2">
+          <div class="flow-num">02</div>
+          <h4>중앙 집중 설정</h4>
+          <p>Config Server가 모든 마이크로서비스의 설정을 외부화하여 환경별(Dev/Prod) 설정 변경 시 재배포 불필요.</p>
+        </div>
+        <div class="flow-card" id="flow-3">
+          <div class="flow-num">03</div>
+          <h4>비동기 메시지 처리</h4>
+          <p>채팅 메시지는 Kafka를 통해 Chat Server(브로드캐스트)와 Backend(DB 영구 저장)가 동시에 처리하여 응답 속도 최적화.</p>
+        </div>
+        <div class="flow-card" id="flow-4">
+          <div class="flow-num">04</div>
+          <h4>자동 오토스케일링</h4>
+          <p>K8s HPA가 CPU 70% 임계점을 감지하면 파드를 자동 확장(1→5개). Readiness Probe로 준비 완료 시점 정확히 제어.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Features -->
+  <section class="section features" id="features">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Key Features</div>
+        <h2 class="section-title">핵심 기능 구현</h2>
+        <p class="section-desc">4개의 핵심 도메인에 걸친 기술적 깊이와 구현 세부 사항</p>
+      </div>
+
+      <div class="features-tabs">
+        <div class="tab-buttons">
+          <button class="tab-btn active" data-tab="auth" id="tab-auth">🔐 인증 시스템</button>
+          <button class="tab-btn" data-tab="chat" id="tab-chat">💬 실시간 채팅</button>
+          <button class="tab-btn" data-tab="board" id="tab-board">📋 게시판/검색</button>
+          <button class="tab-btn" data-tab="monitor" id="tab-monitor">📊 성능 모니터링</button>
+        </div>
+
+        <div class="tab-content active" id="tab-content-auth">
+          <div class="feature-detail">
+            <div class="feature-flow">
+              <h3>로그인 처리 흐름</h3>
+              <div class="flow-steps">
+                <div class="flow-step">
+                  <div class="step-num">1</div>
+                  <div class="step-body">
+                    <div class="step-title">요청 수신</div>
+                    <div class="step-desc">React → <code>/api/auth/login</code> POST 전송</div>
+                  </div>
+                </div>
+                <div class="flow-step">
+                  <div class="step-num">2</div>
+                  <div class="step-body">
+                    <div class="step-title">Redis 캐시 조회</div>
+                    <div class="step-desc">UserDetailsService에서 Redis 캐시(<code>users</code>) 우선 확인</div>
+                  </div>
+                </div>
+                <div class="flow-step">
+                  <div class="step-num">3</div>
+                  <div class="step-body">
+                    <div class="step-title">JWT 토큰 발급</div>
+                    <div class="step-desc">인증 성공 시 AccessToken 생성 후 반환</div>
+                  </div>
+                </div>
+                <div class="flow-step">
+                  <div class="step-num">4</div>
+                  <div class="step-body">
+                    <div class="step-title">이후 요청 처리</div>
+                    <div class="step-desc">JwtAuthenticationFilter가 모든 요청의 <code>Authorization: Bearer</code> 헤더 검증</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="feature-points">
+              <h3>구현 포인트</h3>
+              <ul class="point-list">
+                <li>
+                  <span class="point-icon">🔑</span>
+                  <div>
+                    <strong>OAuth2 + JWT 하이브리드</strong>
+                    <p>Google OAuth2 소셜 로그인과 자체 JWT 발급을 동시 지원. ClientRegistrationRepository 빈 생성 문제를 placeholder 전략으로 해결.</p>
+                  </div>
+                </li>
+                <li>
+                  <span class="point-icon">⚡</span>
+                  <div>
+                    <strong>Redis 캐싱으로 DB 부하 절감</strong>
+                    <p>@Cacheable을 통한 유저 정보 캐싱으로 매 요청마다 발생하는 DB 조회를 인메모리로 대체.</p>
+                  </div>
+                </li>
+                <li>
+                  <span class="point-icon">🛡️</span>
+                  <div>
+                    <strong>WebSocket 전용 JWT 검증</strong>
+                    <p>HTTP 헤더 사용이 불가한 WebSocket 환경에서 쿼리 파라미터(token)로 JWT를 전달받아 연결 시점에 인증.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="tab-content-chat">
+          <div class="feature-detail">
+            <div class="feature-flow">
+              <h3>메시지 발송 흐름</h3>
+              <div class="flow-steps">
+                <div class="flow-step">
+                  <div class="step-num">1</div>
+                  <div class="step-body">
+                    <div class="step-title">WebSocket 전송</div>
+                    <div class="step-desc">React → Nginx → Gateway → Chat-Server(8081)</div>
+                  </div>
+                </div>
+                <div class="flow-step">
+                  <div class="step-num">2</div>
+                  <div class="step-body">
+                    <div class="step-title">Kafka 발행</div>
+                    <div class="step-desc">ChatWebSocketHandler → <code>chat-messages</code> 토픽으로 Publish</div>
+                  </div>
+                </div>
+                <div class="flow-step">
+                  <div class="step-num">3</div>
+                  <div class="step-body">
+                    <div class="step-title">브로드캐스트 &amp; 저장</div>
+                    <div class="step-desc">Consumer1(Chat): 웹소켓 세션 전체 브로드캐스트 / Consumer2(Backend): MySQL 영구 저장</div>
+                  </div>
+                </div>
+                <div class="flow-step">
+                  <div class="step-num">4</div>
+                  <div class="step-body">
+                    <div class="step-title">알림 발송</div>
+                    <div class="step-desc">Redis TTL 기반으로 방 밖 사용자 온라인 상태 확인 후 NOTIFICATION 타입으로 전달</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="feature-points">
+              <h3>구현 포인트</h3>
+              <ul class="point-list">
+                <li>
+                  <span class="point-icon">🚀</span>
+                  <div>
+                    <strong>WebFlux 논블로킹 아키텍처</strong>
+                    <p>Netty 기반의 WebFlux를 채택하여 수천 개의 동시 WebSocket 연결을 최소한의 스레드로 처리.</p>
+                  </div>
+                </li>
+                <li>
+                  <span class="point-icon">📡</span>
+                  <div>
+                    <strong>분산 환경 상태 관리</strong>
+                    <p>오토스케일링 환경에서 사용자 온라인 상태를 Redis TTL(Heartbeat)로 관리. 서버 장애 시에도 상태 보존.</p>
+                  </div>
+                </li>
+                <li>
+                  <span class="point-icon">🔔</span>
+                  <div>
+                    <strong>Kafka 페이로드 최적화</strong>
+                    <p>notifiedEmails 필드를 페이로드에 포함시켜 Chat Server의 추가 DB 조회 없이 알림 대상 즉시 결정.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="tab-content-board">
+          <div class="feature-detail">
+            <div class="feature-flow">
+              <h3>게시판 조회 흐름</h3>
+              <div class="flow-steps">
+                <div class="flow-step">
+                  <div class="step-num">1</div>
+                  <div class="step-body">
+                    <div class="step-title">API 요청</div>
+                    <div class="step-desc">GET /api/boards → AOP PerformanceAspect 인터셉트 시작</div>
+                  </div>
+                </div>
+                <div class="flow-step">
+                  <div class="step-num">2</div>
+                  <div class="step-body">
+                    <div class="step-title">Redis 캐시 확인</div>
+                    <div class="step-desc">Spring Cache AOP가 <code>boards::0-10</code> 키로 캐시 조회</div>
+                  </div>
+                </div>
+                <div class="flow-step">
+                  <div class="step-num">3</div>
+                  <div class="step-body">
+                    <div class="step-title">DB 조회 또는 캐시 반환</div>
+                    <div class="step-desc">Cache Miss → MySQL 조회 + Redis 저장 / Cache Hit → 즉각 반환(DB 부하 0)</div>
+                  </div>
+                </div>
+                <div class="flow-step">
+                  <div class="step-num">4</div>
+                  <div class="step-body">
+                    <div class="step-title">ES 동기화</div>
+                    <div class="step-desc">글 작성/수정/삭제 시 BoardSearchService가 Elasticsearch 인덱스 즉시 업데이트</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="feature-points">
+              <h3>구현 포인트</h3>
+              <ul class="point-list">
+                <li>
+                  <span class="point-icon">🔍</span>
+                  <div>
+                    <strong>Elasticsearch + Nori 한글 검색</strong>
+                    <p>LIKE %keyword% 대비 압도적인 검색 성능. 한글 형태소 분석으로 '검색어'로 '검색 엔진' 탐색 가능.</p>
+                  </div>
+                </li>
+                <li>
+                  <span class="point-icon">💾</span>
+                  <div>
+                    <strong>Redis 페이징 캐싱</strong>
+                    <p>BoardResponseDto에 Serializable 구현으로 Redis 직렬화 문제 해결. 캐시 히트 시 DB 쿼리 0회.</p>
+                  </div>
+                </li>
+                <li>
+                  <span class="point-icon">🔐</span>
+                  <div>
+                    <strong>권한 기반 접근 제어</strong>
+                    <p>작성자 또는 ADMIN 권한 보유자만 수정/삭제 가능하도록 Spring Security 계층에서 제어.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="tab-content-monitor">
+          <div class="feature-detail">
+            <div class="feature-flow">
+              <h3>성능 측정 흐름</h3>
+              <div class="flow-steps">
+                <div class="flow-step">
+                  <div class="step-num">1</div>
+                  <div class="step-body">
+                    <div class="step-title">AOP 인터셉트</div>
+                    <div class="step-desc">PerformanceAspect @Around가 Service 계층 메서드 시작 시간 기록</div>
+                  </div>
+                </div>
+                <div class="flow-step">
+                  <div class="step-num">2</div>
+                  <div class="step-body">
+                    <div class="step-title">비즈니스 로직 실행</div>
+                    <div class="step-desc">joinPoint.proceed() 호출 → 타겟 메서드 실행</div>
+                  </div>
+                </div>
+                <div class="flow-step">
+                  <div class="step-num">3</div>
+                  <div class="step-body">
+                    <div class="step-title">성능 계산</div>
+                    <div class="step-desc">소요 시간 계산 + 10ms 이하 → Cache Hit 간주</div>
+                  </div>
+                </div>
+                <div class="flow-step">
+                  <div class="step-num">4</div>
+                  <div class="step-body">
+                    <div class="step-title">격리된 트랜잭션으로 저장</div>
+                    <div class="step-desc">TransactionTemplate + REQUIRES_NEW로 기존 트랜잭션 방해 없이 PerformanceLog 인서트</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="feature-points">
+              <h3>구현 포인트</h3>
+              <ul class="point-list">
+                <li>
+                  <span class="point-icon">🎯</span>
+                  <div>
+                    <strong>비즈니스 로직 무침범 설계</strong>
+                    <p>AOP를 사용하여 서비스 코드에 단 한 줄의 로깅 코드도 추가하지 않고 전 구간 성능 측정 구현.</p>
+                  </div>
+                </li>
+                <li>
+                  <span class="point-icon">🔒</span>
+                  <div>
+                    <strong>트랜잭션 격리 (핵심 트러블슈팅)</strong>
+                    <p>readOnly = true 환경의 쓰기 예외를 REQUIRES_NEW 전파 방식으로 완전 격리. 시스템 안정성 확보.</p>
+                  </div>
+                </li>
+                <li>
+                  <span class="point-icon">📈</span>
+                  <div>
+                    <strong>Prometheus + Grafana 대시보드</strong>
+                    <p>Spring Actuator + Micrometer로 메트릭 수집. 실시간 RPS, 응답 시간, CPU/메모리 시각화.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack -->
+  <section class="section stack" id="stack">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Tech Stack</div>
+        <h2 class="section-title">기술 스택</h2>
+        <p class="section-desc">프로젝트에 실제 활용한 기술들과 선택 이유</p>
+      </div>
+      <div class="stack-grid">
+        <div class="stack-category" id="stack-backend">
+          <div class="stack-cat-header">
+            <span class="stack-cat-icon">🖥️</span>
+            <h3>Backend</h3>
+          </div>
+          <div class="stack-items">
+            <div class="stack-item"><span class="stack-badge java">Java 17</span></div>
+            <div class="stack-item"><span class="stack-badge spring">Spring Boot 3.2</span></div>
+            <div class="stack-item"><span class="stack-badge spring">Spring Cloud</span></div>
+            <div class="stack-item"><span class="stack-badge spring">Spring Security</span></div>
+            <div class="stack-item"><span class="stack-badge spring">Spring WebFlux</span></div>
+            <div class="stack-item"><span class="stack-badge spring">OAuth2 + JWT</span></div>
+            <div class="stack-item"><span class="stack-badge spring">JPA + QueryDSL</span></div>
+            <div class="stack-item"><span class="stack-badge spring">Flyway</span></div>
+          </div>
+        </div>
+        <div class="stack-category" id="stack-infra">
+          <div class="stack-cat-header">
+            <span class="stack-cat-icon">🗄️</span>
+            <h3>Infrastructure</h3>
+          </div>
+          <div class="stack-items">
+            <div class="stack-item"><span class="stack-badge db">MySQL 8.0</span></div>
+            <div class="stack-item"><span class="stack-badge db">Redis</span></div>
+            <div class="stack-item"><span class="stack-badge kafka">Apache Kafka</span></div>
+            <div class="stack-item"><span class="stack-badge es">Elasticsearch 8.12</span></div>
+            <div class="stack-item"><span class="stack-badge docker">Docker</span></div>
+            <div class="stack-item"><span class="stack-badge nginx">Nginx</span></div>
+          </div>
+        </div>
+        <div class="stack-category" id="stack-k8s">
+          <div class="stack-cat-header">
+            <span class="stack-cat-icon">☸️</span>
+            <h3>Kubernetes</h3>
+          </div>
+          <div class="stack-items">
+            <div class="stack-item"><span class="stack-badge k8s">Kubernetes</span></div>
+            <div class="stack-item"><span class="stack-badge k8s">HPA Autoscaling</span></div>
+            <div class="stack-item"><span class="stack-badge k8s">ConfigMap</span></div>
+            <div class="stack-item"><span class="stack-badge k8s">Readiness Probe</span></div>
+            <div class="stack-item"><span class="stack-badge k8s">k6 Load Test</span></div>
+          </div>
+        </div>
+        <div class="stack-category" id="stack-monitor">
+          <div class="stack-cat-header">
+            <span class="stack-cat-icon">📊</span>
+            <h3>Monitoring</h3>
+          </div>
+          <div class="stack-items">
+            <div class="stack-item"><span class="stack-badge monitoring">Prometheus</span></div>
+            <div class="stack-item"><span class="stack-badge monitoring">Grafana</span></div>
+            <div class="stack-item"><span class="stack-badge monitoring">Spring Actuator</span></div>
+            <div class="stack-item"><span class="stack-badge monitoring">Micrometer</span></div>
+            <div class="stack-item"><span class="stack-badge monitoring">AOP 로깅</span></div>
+          </div>
+        </div>
+        <div class="stack-category" id="stack-frontend">
+          <div class="stack-cat-header">
+            <span class="stack-cat-icon">🎨</span>
+            <h3>Frontend</h3>
+          </div>
+          <div class="stack-items">
+            <div class="stack-item"><span class="stack-badge react">React 18</span></div>
+            <div class="stack-item"><span class="stack-badge react">TypeScript</span></div>
+            <div class="stack-item"><span class="stack-badge react">Vite</span></div>
+            <div class="stack-item"><span class="stack-badge react">Axios</span></div>
+            <div class="stack-item"><span class="stack-badge react">WebSocket Client</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trouble Shooting -->
+  <section class="section trouble" id="trouble">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Trouble Shooting</div>
+        <h2 class="section-title">핵심 트러블슈팅</h2>
+        <p class="section-desc">단순한 기능 구현을 넘어, 실제 운영에서 마주치는 복잡한 문제들을 직접 진단하고 해결했습니다.</p>
+      </div>
+
+      <div class="trouble-list">
+
+        <div class="trouble-card" id="ts-1">
+          <div class="trouble-badge critical">🔥 HIGH IMPACT</div>
+          <div class="trouble-header">
+            <div class="trouble-num">#01</div>
+            <h3>AOP 성능 로깅 ↔ ReadOnly 트랜잭션 충돌</h3>
+          </div>
+          <div class="trouble-body">
+            <div class="trouble-section">
+              <div class="ts-label symptom">증상</div>
+              <p>로그인 후 게시판 목록 조회 시 <code>500 Internal Server Error</code> 발생 및 강제 로그인 화면 리다이렉트</p>
+            </div>
+            <div class="trouble-section">
+              <div class="ts-label cause">원인</div>
+              <p><code>@Transactional(readOnly = true)</code> 환경에서 PerformanceAspect가 성능 로그를 DB에 <code>save()</code> 시도 → Hibernate가 쓰기 작업 차단하며 예외 발생</p>
+            </div>
+            <div class="trouble-section">
+              <div class="ts-label solution">해결</div>
+              <p><code>TransactionTemplate</code> 도입, <code>PROPAGATION_REQUIRES_NEW</code>로 성능 로그 저장 로직을 완전히 격리된 새 트랜잭션으로 분리. 파라미터 250자 Truncate 방어 로직 추가</p>
+            </div>
+          </div>
+          <div class="trouble-code">
+            <pre><code>// 기존: 메인 트랜잭션과 충돌
+performanceLogRepository.save(log);  // ❌ readOnly 트랜잭션에서 쓰기 시도
+
+// 개선: 새로운 격리 트랜잭션
+transactionTemplate.setPropagationBehavior(PROPAGATION_REQUIRES_NEW);
+transactionTemplate.execute(status -> {
+    performanceLogRepository.save(log);  // ✅ 독립된 트랜잭션
+    return null;
+});</code></pre>
+          </div>
+        </div>
+
+        <div class="trouble-card" id="ts-2">
+          <div class="trouble-badge high">⚡ PERFORMANCE</div>
+          <div class="trouble-header">
+            <div class="trouble-num">#02</div>
+            <h3>HikariCP 데드락 (K8s 부하 테스트)</h3>
+          </div>
+          <div class="trouble-body">
+            <div class="trouble-section">
+              <div class="ts-label symptom">증상</div>
+              <p>K6 500명 동시 요청 시 <code>HikariPool-1 - Connection is not available, request timed out after 30000ms</code> 대량 발생, 에러율 100%</p>
+            </div>
+            <div class="trouble-section">
+              <div class="ts-label cause">원인</div>
+              <p>Tomcat 스레드 200개가 각각 커넥션 1개씩 점유. PerformanceAspect의 REQUIRES_NEW가 같은 스레드에서 2번째 커넥션을 요구 → 전 스레드가 서로 커넥션을 기다리는 <strong>교착상태(Deadlock)</strong></p>
+            </div>
+            <div class="trouble-section">
+              <div class="ts-label solution">해결</div>
+              <p>Tomcat 최대 스레드 50개로 제한 + HikariCP 풀 사이즈 150으로 확장 + MySQL <code>max_connections=2000</code> 상향. 스레드 수 &lt; 커넥션 수를 유지하여 데드락 원천 차단</p>
+            </div>
+          </div>
+          <div class="trouble-code">
+            <pre><code># ConfigMap (backend-dev.yml) 수정
+server.tomcat.threads.max=50           # 스레드 제한 (200 → 50)
+spring.datasource.hikari.maximum-pool-size=150  # 풀 확장
+# MySQL: --max_connections=2000        # 스케일아웃 대비</code></pre>
+          </div>
+        </div>
+
+        <div class="trouble-card" id="ts-3">
+          <div class="trouble-badge high">🌐 MSA</div>
+          <div class="trouble-header">
+            <div class="trouble-num">#03</div>
+            <h3>Kafka Advertised Listener K8s 통신 불가</h3>
+          </div>
+          <div class="trouble-body">
+            <div class="trouble-section">
+              <div class="ts-label symptom">증상</div>
+              <p>K6 부하 테스트 p95 응답시간 <strong>18.5초</strong>, 에러율 100%. 백엔드 로그에 Kafka 연결 타임아웃 무한 반복</p>
+            </div>
+            <div class="trouble-section">
+              <div class="ts-label cause">원인</div>
+              <p>Kafka가 <code>ADVERTISED_LISTENERS</code>로 <code>localhost:9092</code> 반환 → K8s 파드 내부에서 자기 자신(파드 내부)을 찌르며 60초 타임아웃 무한 대기</p>
+            </div>
+            <div class="trouble-section">
+              <div class="ts-label solution">해결</div>
+              <p>docker-compose.yml에서 <code>KAFKA_ADVERTISED_LISTENERS</code>를 <code>host.docker.internal:9092</code>로 수정하여 파드가 호스트 머신의 Kafka에 정확히 도달하도록 통신 경로 수정</p>
+            </div>
+          </div>
+          <div class="trouble-code">
+            <pre><code># docker-compose.yml - 수정 전
+KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092  # ❌
+
+# 수정 후
+KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://host.docker.internal:9092  # ✅</code></pre>
+          </div>
+        </div>
+
+        <div class="trouble-card" id="ts-4">
+          <div class="trouble-badge medium">🔄 K8s</div>
+          <div class="trouble-header">
+            <div class="trouble-num">#04</div>
+            <h3>HPA 스케일아웃 중 EOF 에러 (Readiness Probe 부재)</h3>
+          </div>
+          <div class="trouble-body">
+            <div class="trouble-section">
+              <div class="ts-label symptom">증상</div>
+              <p>트래픽 200명→500명 급증 시 211초 부근에서 1.85%의 EOF 에러 발생</p>
+            </div>
+            <div class="trouble-section">
+              <div class="ts-label cause">원인</div>
+              <p>K8s가 컨테이너 프로세스 시작 즉시 파드 준비 완료로 판단 → Spring Boot가 아직 10~20초 로딩 중인데 게이트웨이가 트래픽을 전달 → 소켓 연결 거부(EOF)</p>
+            </div>
+            <div class="trouble-section">
+              <div class="ts-label solution">해결</div>
+              <p>Deployment YAML에 <code>readinessProbe</code> + <code>livenessProbe</code> 추가. K8s가 TCP 포트 8080이 실제 열릴 때까지 기다렸다가 트래픽을 전달하도록 설정 → 1.85% 에러 완전 근절</p>
+            </div>
+          </div>
+          <div class="trouble-code">
+            <pre><code>readinessProbe:
+  tcpSocket:
+    port: 8080
+  initialDelaySeconds: 20   # Spring Boot 기동 대기
+  periodSeconds: 5
+livenessProbe:
+  tcpSocket:
+    port: 8080
+  initialDelaySeconds: 30</code></pre>
+          </div>
+        </div>
+
+        <div class="trouble-card" id="ts-5">
+          <div class="trouble-badge medium">🗄️ ES</div>
+          <div class="trouble-header">
+            <div class="trouble-num">#05</div>
+            <h3>Elasticsearch Race Condition (HPA 스케일아웃)</h3>
+          </div>
+          <div class="trouble-body">
+            <div class="trouble-section">
+              <div class="ts-label symptom">증상</div>
+              <p>파드 1→5개 스케일아웃 시 15~19초 구간에 다수의 EOF 에러, 파드 4개의 RESTARTS 카운트 증가</p>
+            </div>
+            <div class="trouble-section">
+              <div class="ts-label cause">원인</div>
+              <p>4개의 파드가 동일 밀리초에 ES <code>boards</code> 인덱스 자동 생성 시도 → 1개만 성공, 나머지 3개는 <code>resource_already_exists_exception</code> 예외로 Crash</p>
+            </div>
+            <div class="trouble-section">
+              <div class="ts-label solution">해결</div>
+              <p>K8s Self-Healing 기능으로 파드 자동 재시작. 두 번째 기동 시 인덱스 이미 존재 → 충돌 없이 정상 구동. 이 과정을 통해 K8s 자가 치유 메커니즘을 실제로 체험하고 이해</p>
+            </div>
+          </div>
+          <div class="trouble-code">
+            <pre><code>$ kubectl get pod -l app=backend \
+  -o custom-columns=NAME:.metadata.name,RESTARTS:.status.containerStatuses[0].restartCount
+NAME                       RESTARTS
+backend-7c7f8554f4-7mm6d   1    # Self-Healing 후 정상화
+backend-7c7f8554f4-9kplq   0</code></pre>
+          </div>
+        </div>
+
+        <div class="trouble-card" id="ts-6">
+          <div class="trouble-badge medium">🔗 Bean</div>
+          <div class="trouble-header">
+            <div class="trouble-num">#06</div>
+            <h3>연쇄 Bean 생성 실패 (3단계 순차 해결)</h3>
+          </div>
+          <div class="trouble-body">
+            <div class="trouble-section">
+              <div class="ts-label symptom">증상</div>
+              <p><code>UnsatisfiedDependencyException</code> 연쇄 발생으로 Spring Boot 기동 완전 실패</p>
+            </div>
+            <div class="trouble-section">
+              <div class="ts-label cause">원인</div>
+              <p>① Flyway 스키마 이력 없음 → JPA EntityManagerFactory 빈 생성 실패<br/>② ES Document @Id를 JPA용으로 잘못 임포트 → ES Repository 빈 생성 실패<br/>③ OAuth2 client 설정 누락 → ClientRegistrationRepository 빈 생성 실패</p>
+            </div>
+            <div class="trouble-section">
+              <div class="ts-label solution">해결</div>
+              <p>스택 트레이스 역추적으로 근본 원인 순차 식별: ① <code>baseline-on-migrate: true</code> → ② <code>org.springframework.data.annotation.Id</code>로 임포트 수정 → ③ OAuth2 placeholder 설정 추가</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Kubernetes Section -->
+  <section class="section k8s" id="k8s">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Kubernetes + Load Test</div>
+        <h2 class="section-title">K8s 배포 &amp; 부하 테스트</h2>
+        <p class="section-desc">로컬 Docker Compose 환경을 Kubernetes로 이전하고, k6로 실제 오토스케일링을 검증했습니다.</p>
+      </div>
+
+      <div class="k8s-timeline">
+        <div class="k8s-step" id="k8s-1">
+          <div class="k8s-step-num">Phase 1</div>
+          <div class="k8s-step-body">
+            <h4>ConfigMap 전환</h4>
+            <p>로컬 파일 시스템 설정을 K8s ConfigMap으로 변환. Config Server가 파드 내에서 설정 파일을 안전하게 서빙.</p>
+            <div class="k8s-cmd"><code>kubectl create configmap config-repo-files --from-file=./config-repo</code></div>
+          </div>
+        </div>
+        <div class="k8s-step" id="k8s-2">
+          <div class="k8s-step-num">Phase 2</div>
+          <div class="k8s-step-body">
+            <h4>서비스 간 통신 설정</h4>
+            <p>K8s 내부 DNS로 서비스 간 통신 경로 재설정. localhost → K8s 서비스 명으로 변경.</p>
+            <div class="k8s-cmd"><code>SPRING_CONFIG_IMPORT: configserver:http://config-server:8888</code></div>
+          </div>
+        </div>
+        <div class="k8s-step" id="k8s-3">
+          <div class="k8s-step-num">Phase 3</div>
+          <div class="k8s-step-body">
+            <h4>HPA 오토스케일링 구성</h4>
+            <p>CPU 70% 임계점 설정, 최소 1개 ~ 최대 5개 파드로 자동 확장 구성.</p>
+            <div class="k8s-cmd"><code>kubectl apply -f hpa.yaml  # CPU 70%, min:1, max:5</code></div>
+          </div>
+        </div>
+        <div class="k8s-step" id="k8s-4">
+          <div class="k8s-step-num">Phase 4</div>
+          <div class="k8s-step-body">
+            <h4>k6 부하 테스트 &amp; 검증</h4>
+            <p>500명 동시 가상 유저로 부하 테스트. 트러블슈팅을 거쳐 최종 에러율 0% 달성.</p>
+            <div class="k8s-cmd"><code>k6 run --vus 500 --duration 300s k6-scaling-test.js</code></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Load Test Results -->
+      <div class="load-test-result">
+        <h3>🎯 최종 부하 테스트 결과</h3>
+        <div class="result-cards">
+          <div class="result-card" id="res-1">
+            <div class="result-num">271</div>
+            <div class="result-unit">RPS</div>
+            <div class="result-label">최고 처리량</div>
+            <div class="result-sub">초당 요청 처리</div>
+          </div>
+          <div class="result-card" id="res-2">
+            <div class="result-num">0%</div>
+            <div class="result-unit"></div>
+            <div class="result-label">최종 에러율</div>
+            <div class="result-sub">Readiness Probe 적용 후</div>
+          </div>
+          <div class="result-card" id="res-3">
+            <div class="result-num">1→5</div>
+            <div class="result-unit">개</div>
+            <div class="result-label">파드 자동 확장</div>
+            <div class="result-sub">HPA 트리거 확인</div>
+          </div>
+          <div class="result-card" id="res-4">
+            <div class="result-num">8</div>
+            <div class="result-unit">건</div>
+            <div class="result-label">K8s 트러블슈팅</div>
+            <div class="result-sub">전수 해결 완료</div>
+          </div>
+        </div>
+        <div class="result-journey">
+          <div class="journey-step done">초기 구성</div>
+          <div class="journey-arrow">→</div>
+          <div class="journey-step done">Config 이슈 해결</div>
+          <div class="journey-arrow">→</div>
+          <div class="journey-step done">Kafka 통신 수정</div>
+          <div class="journey-arrow">→</div>
+          <div class="journey-step done">HikariCP 데드락 해결</div>
+          <div class="journey-arrow">→</div>
+          <div class="journey-step done">Readiness Probe 추가</div>
+          <div class="journey-arrow">→</div>
+          <div class="journey-step final">에러율 0% 🎉</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section contact" id="contact">
+    <div class="container">
+      <div class="contact-card">
+        <div class="contact-glow"></div>
+        <div class="section-tag" style="margin-bottom: 1rem;">Contact</div>
+        <h2 class="contact-title">함께 이야기 나눠요</h2>
+        <p class="contact-desc">
+          대규모 트래픽 처리, MSA 설계, Kubernetes 운영에 대한 실제 경험을 보유한 백엔드 개발자입니다.<br/>
+          새로운 도전과 성장에 항상 열려있습니다.
+        </p>
+        <div class="contact-links">
+          <a href="https://github.com" class="contact-link" id="github-link" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            <span>GitHub</span>
+          </a>
+          <a href="mailto:example@email.com" class="contact-link" id="email-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>Email</span>
+          </a>
+          <a href="#" class="contact-link" id="blog-link" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            <span>Tech Blog</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>MSA 기반 실시간 웹 서비스 포트폴리오 · Built with ❤️ and lots of debugging</p>
+      <p class="footer-stack">Spring Boot · Kubernetes · Kafka · Redis · Elasticsearch</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

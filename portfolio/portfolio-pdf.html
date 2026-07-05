@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>백엔드 개발자 포트폴리오 (PDF) | MSA 기반 실시간 웹 서비스</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #6c63ff;
+      --primary-light: #8b85ff;
+      --accent: #00d4ff;
+      --accent2: #ff6b9d;
+      --green: #00c896;
+      --yellow: #ffd666;
+      --orange: #ff9f43;
+      --bg: #ffffff;
+      --bg2: #f7f8fc;
+      --border: #e2e6f0;
+      --text: #1a1d2e;
+      --text2: #4a5068;
+      --text3: #8890aa;
+      --code-bg: #f0f2f8;
+      --shadow: 0 2px 8px rgba(108,99,255,0.10);
+    }
+
+    html {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 11pt;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    body {
+      max-width: 794px;  /* A4 width */
+      margin: 0 auto;
+      padding: 0;
+      background: white;
+    }
+
+    /* ===== Page Breaks ===== */
+    .page-break { page-break-after: always; break-after: always; }
+    .no-break { page-break-inside: avoid; break-inside: avoid; }
+
+    /* ===== Print-only PDF button ===== */
+    @media screen {
+      .pdf-actions {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        gap: 10px;
+        z-index: 9999;
+      }
+      .pdf-btn {
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        font-family: 'Noto Sans KR', sans-serif;
+        box-shadow: 0 4px 20px rgba(108,99,255,0.35);
+        transition: all 0.2s;
+      }
+      .pdf-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(108,99,255,0.5); }
+      .pdf-btn.secondary {
+        background: white;
+        color: var(--primary);
+        border: 2px solid var(--primary);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      }
+    }
+    @media print {
+      .pdf-actions { display: none; }
+    }
+
+    /* ===== Page Layout ===== */
+    .pdf-page {
+      padding: 28mm 18mm 20mm 18mm;
+      min-height: 297mm;
+      position: relative;
+    }
+
+    /* ===== Header / Hero ===== */
+    .header-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 3px solid transparent;
+      border-image: linear-gradient(90deg, var(--primary), var(--accent)) 1;
+    }
+
+    .header-left { flex: 1; }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, rgba(108,99,255,0.1), rgba(0,212,255,0.1));
+      border: 1px solid rgba(108,99,255,0.3);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 9pt;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 10px;
+      letter-spacing: 0.03em;
+    }
+    .header-badge .dot {
+      width: 7px; height: 7px;
+      background: var(--green);
+      border-radius: 50%;
+    }
+
+    .header-name {
+      font-size: 22pt;
+      font-weight: 800;
+      line-height: 1.25;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .header-name .grad {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-subtitle {
+      font-size: 10pt;
+      color: var(--text2);
+      line-height: 1.55;
+    }
+
+    .header-right {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 160px;
+      align-items: flex-end;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 9pt;
+      color: var(--text2);
+    }
+    .contact-item .ci-icon {
+      width: 16px; height: 16px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8pt;
+    }
+
+    /* ===== Stats Row ===== */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .stat-box {
+      background: linear-gradient(135deg, var(--bg2), white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+    .stat-val {
+      font-size: 18pt;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+    .stat-unit { font-size: 8pt; color: var(--text3); font-weight: 600; }
+    .stat-label { font-size: 8pt; color: var(--text2); margin-top: 3px; }
+
+    /* ===== Section ===== */
+    .section {
+      margin-bottom: 18px;
+    }
+    .section-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .section-tag-small {
+      font-size: 7.5pt;
+      font-weight: 700;
+      color: var(--primary);
+      background: rgba(108,99,255,0.08);
+      padding: 2px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .section-h2 {
+      font-size: 13pt;
+      font-weight: 700;
+      color: var(--text);
+      position: relative;
+      padding-left: 10px;
+    }
+    .section-h2::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 50%;
+      transform: translateY(-50%);
+      width: 3px; height: 70%;
+      background: linear-gradient(var(--primary), var(--accent));
+      border-radius: 3px;
+    }
+
+    /* ===== About Cards ===== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .about-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .about-card-title {
+      font-size: 9pt;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .about-card p {
+      font-size: 8pt;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+
+    /* ===== Architecture ===== */
+    .arch-container {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 3px;
+    }
+    .arch-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .arch-node {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 10px;
+      text-align: center;
+      min-width: 90px;
+    }
+    .arch-node .an-icon { font-size: 14pt; }
+    .arch-node .an-label { font-size: 8pt; font-weight: 700; color: var(--text); }
+    .arch-node .an-sub { font-size: 7pt; color: var(--text3); }
+    .arch-node.primary-node {
+      border-color: var(--primary);
+      background: rgba(108,99,255,0.04);
+    }
+    .arch-arrow { font-size: 10pt; color: var(--text3); font-weight: 600; }
+    .arch-services {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+    .arch-infra {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+    }
+    .infra-node {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 5px 8px;
+      text-align: center;
+      flex: 1;
+    }
+    .infra-node .in-icon { font-size: 11pt; }
+    .infra-node .in-label { font-size: 7.5pt; font-weight: 700; color: var(--text); }
+    .infra-node .in-sub { font-size: 6.5pt; color: var(--text3); }
+
+    .k8s-badge-pdf {
+      display: flex;
+      justify-content: center;
+      margin-top: 8px;
+    }
+    .k8s-badge-pdf span {
+      background: linear-gradient(135deg, rgba(108,99,255,0.1), rgba(0,212,255,0.1));
+      border: 1px solid rgba(108,99,255,0.25);
+      color: var(--primary);
+      font-size: 8pt;
+      font-weight: 700;
+      padding: 4px 16px;
+      border-radius: 20px;
+    }
+
+    .flow-cards-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+    .flow-card-pdf {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px;
+    }
+    .flow-card-pdf .fc-num {
+      font-size: 8pt;
+      font-weight: 800;
+      color: var(--primary);
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 3px;
+    }
+    .flow-card-pdf h5 { font-size: 8pt; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+    .flow-card-pdf p { font-size: 7pt; color: var(--text2); line-height: 1.4; }
+
+    /* ===== Tech Stack ===== */
+    .stack-grid-pdf {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+    .stack-cat {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+    .stack-cat-title {
+      font-size: 8pt;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .stack-badges {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 7.5pt;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .badge.java    { background: rgba(249,115,22,0.12); color: #d97706; }
+    .badge.spring  { background: rgba(34,197,94,0.12); color: #16a34a; }
+    .badge.db      { background: rgba(59,130,246,0.12); color: #2563eb; }
+    .badge.kafka   { background: rgba(168,85,247,0.12); color: #9333ea; }
+    .badge.es      { background: rgba(245,158,11,0.12); color: #d97706; }
+    .badge.docker  { background: rgba(6,182,212,0.12); color: #0891b2; }
+    .badge.nginx   { background: rgba(16,185,129,0.12); color: #059669; }
+    .badge.k8s     { background: rgba(99,102,241,0.12); color: #4f46e5; }
+    .badge.monitor { background: rgba(239,68,68,0.12); color: #dc2626; }
+    .badge.react   { background: rgba(56,189,248,0.12); color: #0284c7; }
+
+    /* ===== Trouble Shooting ===== */
+    .trouble-list { display: flex; flex-direction: column; gap: 10px; }
+    .ts-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      background: var(--bg2);
+      position: relative;
+      overflow: hidden;
+    }
+    .ts-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+    }
+    .ts-card.critical::before { background: linear-gradient(var(--accent2), #ff8c69); }
+    .ts-card.high::before     { background: linear-gradient(var(--orange), var(--yellow)); }
+    .ts-card.medium::before   { background: linear-gradient(var(--primary), var(--accent)); }
+
+    .ts-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .ts-num {
+      font-size: 9pt;
+      font-weight: 800;
+      color: var(--text3);
+      font-family: 'JetBrains Mono', monospace;
+      min-width: 28px;
+      padding-top: 1px;
+    }
+    .ts-title-block { flex: 1; }
+    .ts-badge {
+      display: inline-block;
+      font-size: 7pt;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 3px;
+    }
+    .ts-badge.critical { background: rgba(255,107,157,0.12); color: var(--accent2); }
+    .ts-badge.high     { background: rgba(255,159,67,0.12); color: var(--orange); }
+    .ts-badge.medium   { background: rgba(108,99,255,0.12); color: var(--primary); }
+    .ts-h3 { font-size: 10pt; font-weight: 700; color: var(--text); }
+
+    .ts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 6px;
+      margin-left: 36px;
+    }
+    .ts-item {}
+    .ts-label {
+      font-size: 7pt;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 3px;
+      display: inline-block;
+      margin-bottom: 3px;
+    }
+    .ts-label.symptom { background: rgba(239,68,68,0.1); color: #ef4444; }
+    .ts-label.cause   { background: rgba(245,158,11,0.1); color: #f59e0b; }
+    .ts-label.solution{ background: rgba(34,197,94,0.1); color: #22c55e; }
+    .ts-item p { font-size: 7.5pt; color: var(--text2); line-height: 1.5; }
+    .ts-item code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 6.5pt;
+      background: var(--code-bg);
+      padding: 0 3px;
+      border-radius: 2px;
+      color: var(--primary);
+    }
+
+    .ts-code-inline {
+      margin-left: 36px;
+      margin-top: 6px;
+      background: #1e2035;
+      border-radius: 6px;
+      padding: 7px 10px;
+      overflow: hidden;
+    }
+    .ts-code-inline pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7pt;
+      color: #a8b3cf;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .ts-code-inline .c-green { color: #89ddff; }
+    .ts-code-inline .c-comment { color: #546e7a; }
+
+    /* ===== Kubernetes Section ===== */
+    .k8s-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .k8s-timeline-pdf {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .k8s-step-pdf {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+    .k8s-phase {
+      font-size: 7.5pt;
+      font-weight: 800;
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      padding: 3px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      min-width: 58px;
+      text-align: center;
+    }
+    .k8s-step-body-pdf h5 { font-size: 8.5pt; font-weight: 700; color: var(--text); }
+    .k8s-step-body-pdf p { font-size: 7.5pt; color: var(--text2); line-height: 1.4; }
+    .k8s-cmd-pdf {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 6.5pt;
+      background: var(--code-bg);
+      color: var(--primary);
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin-top: 3px;
+      display: inline-block;
+    }
+
+    .result-cards-pdf {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .rc-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .rc-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+    .rc-num { font-size: 20pt; font-weight: 800; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
+    .rc-label { font-size: 8pt; color: var(--text2); font-weight: 600; margin-top: 2px; }
+    .rc-sub { font-size: 7pt; color: var(--text3); margin-top: 1px; }
+
+    .journey-pdf {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .jstep { font-size: 7.5pt; font-weight: 600; background: rgba(108,99,255,0.1); color: var(--primary); padding: 3px 8px; border-radius: 4px; }
+    .jstep.final { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; }
+    .jarrow { color: var(--text3); font-size: 9pt; }
+
+    /* ===== Features ===== */
+    .features-3col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .feat-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+    }
+    .feat-title {
+      font-size: 9pt;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .feat-point {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 5px;
+    }
+    .feat-point-icon { font-size: 9pt; flex-shrink: 0; margin-top: 1px; }
+    .feat-point-text { font-size: 7.5pt; color: var(--text2); line-height: 1.45; }
+    .feat-point-text strong { color: var(--text); font-weight: 700; display: block; margin-bottom: 1px; }
+
+    .flow-steps-inline {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+    .fs-step {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 7.5pt;
+    }
+    .fs-num {
+      width: 16px; height: 16px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 6.5pt;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .fs-content { color: var(--text2); line-height: 1.4; }
+    .fs-content code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 6.5pt;
+      background: var(--code-bg);
+      padding: 0 3px;
+      border-radius: 2px;
+      color: var(--primary);
+    }
+
+    /* ===== Footer ===== */
+    .pdf-footer {
+      border-top: 2px solid var(--border);
+      padding-top: 12px;
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .pdf-footer p { font-size: 8pt; color: var(--text3); }
+    .pdf-footer .footer-logo {
+      font-size: 11pt;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ===== Page number (print only) ===== */
+    @media print {
+      @page {
+        size: A4;
+        margin: 0;
+      }
+      body { max-width: 100%; }
+      .pdf-page { padding: 18mm 15mm 15mm 15mm; min-height: auto; }
+      html { font-size: 10pt; }
+      .section-h2 { font-size: 12pt; }
+      .header-name { font-size: 19pt; }
+    }
+
+    /* ===== Screen only decorations ===== */
+    @media screen {
+      body {
+        background: #f0f2f8;
+        padding: 30px 0;
+      }
+      .pdf-page {
+        background: white;
+        box-shadow: 0 4px 30px rgba(0,0,0,0.12);
+        border-radius: 4px;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PDF Export Button -->
+  <div class="pdf-actions">
+    <button class="pdf-btn secondary" onclick="window.history.back()">← 웹 버전</button>
+    <button class="pdf-btn" onclick="window.print()">📥 PDF 저장</button>
+  </div>
+
+  <!-- ==================== PAGE 1 ==================== -->
+  <div class="pdf-page">
+
+    <!-- Header -->
+    <div class="header-section">
+      <div class="header-left">
+        <div class="header-badge">
+          <span class="dot"></span>
+          Backend Engineer · MSA Specialist
+        </div>
+        <h1 class="header-name">
+          대규모 트래픽 &amp; 실시간 처리<br>
+          <span class="grad">MSA 기반 웹 서비스</span>
+        </h1>
+        <p class="header-subtitle">
+          Spring Boot · Kubernetes · Kafka · Redis · Elasticsearch<br>
+          분산 환경에서의 깊은 트러블슈팅 경험과 성능 최적화 역량
+        </p>
+      </div>
+      <div class="header-right">
+        <div class="contact-item">
+          <div class="ci-icon">📧</div>
+          <span>jgs0318@gmail.com</span>
+        </div>
+        <div class="contact-item">
+	  <div class="ci-icon">🐙</div>
+	  <a href="https://github.com/JeGalSoo/KubePractice" target="_blank">https://github.com/JeGalSoo/KubePractice</a>
+	</div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-val">271</div>
+        <div class="stat-unit">RPS</div>
+        <div class="stat-label">최고 처리량</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val">5</div>
+        <div class="stat-unit">개</div>
+        <div class="stat-label">마이크로서비스</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val">13</div>
+        <div class="stat-unit">건</div>
+        <div class="stat-label">트러블슈팅 해결</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val">0%</div>
+        <div class="stat-unit">&nbsp;</div>
+        <div class="stat-label">최종 에러율</div>
+      </div>
+    </div>
+
+    <!-- Project Overview -->
+    <div class="section">
+      <div class="section-title-row">
+        <span class="section-tag-small">About Project</span>
+        <h2 class="section-h2">프로젝트 개요</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-card no-break">
+          <div class="about-card-title">📦 MSA 아키텍처</div>
+          <p>5개의 독립적인 마이크로서비스로 구성. 각 서비스의 독립적 배포 및 스케일링을 구현했습니다.</p>
+        </div>
+        <div class="about-card no-break">
+          <div class="about-card-title">💬 실시간 채팅</div>
+          <p>WebFlux + WebSocket + Kafka 조합으로 논블로킹 고성능 실시간 채팅 시스템을 독립 서버로 분리 운용합니다.</p>
+        </div>
+        <div class="about-card no-break">
+          <div class="about-card-title">🔍 고성능 검색</div>
+          <p>Elasticsearch + Nori 한글 형태소 분석기로 LIKE 쿼리 대비 압도적인 풀텍스트 검색 성능을 달성했습니다.</p>
+        </div>
+        <div class="about-card no-break">
+          <div class="about-card-title">📊 성능 모니터링</div>
+          <p>AOP 기반 커스텀 성능 로깅과 Prometheus + Grafana로 시스템 전 구간 실시간 모니터링을 구축했습니다.</p>
+        </div>
+        <div class="about-card no-break">
+          <div class="about-card-title">☸️ Kubernetes 배포</div>
+          <p>K8s HPA 오토스케일링으로 트래픽 폭증 시 자동 확장되는 무중단 운영 환경을 구축하고 부하테스트로 검증했습니다.</p>
+        </div>
+        <div class="about-card no-break">
+          <div class="about-card-title">📋 심층 트러블슈팅</div>
+          <p>AOP-트랜잭션 충돌, Kafka 타임아웃, HikariCP 데드락, ES Race Condition 등 복합적인 장애를 스스로 진단·해결했습니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Architecture -->
+    <div class="section">
+      <div class="section-title-row">
+        <span class="section-tag-small">System Design</span>
+        <h2 class="section-h2">시스템 아키텍처</h2>
+      </div>
+      <div class="arch-container">
+        <!-- Flow: Client → Nginx → Gateway -->
+        <div class="arch-flow">
+          <div class="arch-node">
+            <div class="an-icon">🌐</div>
+            <div class="an-label">React Frontend</div>
+            <div class="an-sub">Vite + TypeScript</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node">
+            <div class="an-icon">⚡</div>
+            <div class="an-label">Nginx</div>
+            <div class="an-sub">Reverse Proxy</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node primary-node">
+            <div class="an-icon">🔀</div>
+            <div class="an-label">API Gateway</div>
+            <div class="an-sub">Spring Cloud · 8000</div>
+          </div>
+          <div class="arch-arrow">→</div>
+        </div>
+        <!-- Services Row -->
+        <div class="arch-services">
+          <div class="arch-node">
+            <div class="an-icon">⚙️</div>
+            <div class="an-label">Config Server</div>
+            <div class="an-sub">Spring Cloud · 8888</div>
+          </div>
+          <div class="arch-node primary-node">
+            <div class="an-icon">🖥️</div>
+            <div class="an-label">Backend API</div>
+            <div class="an-sub">Spring Boot · 8080</div>
+          </div>
+          <div class="arch-node primary-node">
+            <div class="an-icon">💬</div>
+            <div class="an-label">Chat Server</div>
+            <div class="an-sub">WebFlux · 8081</div>
+          </div>
+          <div class="arch-node">
+            <div class="an-icon">📦</div>
+            <div class="an-label">Batch Server</div>
+            <div class="an-sub">Spring Batch</div>
+          </div>
+        </div>
+        <!-- Infra -->
+        <div class="arch-infra">
+          <div class="infra-node">
+            <div class="in-icon">🗄️</div>
+            <div class="in-label">MySQL</div>
+            <div class="in-sub">Primary + Archive</div>
+          </div>
+          <div class="infra-node">
+            <div class="in-icon">⚡</div>
+            <div class="in-label">Redis</div>
+            <div class="in-sub">Cache + Session</div>
+          </div>
+          <div class="infra-node">
+            <div class="in-icon">📨</div>
+            <div class="in-label">Kafka</div>
+            <div class="in-sub">Message Broker</div>
+          </div>
+          <div class="infra-node">
+            <div class="in-icon">🔍</div>
+            <div class="in-label">Elasticsearch</div>
+            <div class="in-sub">Nori Analyzer</div>
+          </div>
+          <div class="infra-node">
+            <div class="in-icon">📊</div>
+            <div class="in-label">Prometheus</div>
+            <div class="in-sub">+ Grafana</div>
+          </div>
+        </div>
+        <div class="k8s-badge-pdf">
+          <span>☸️ Kubernetes + HPA Autoscaling 위에서 동작</span>
+        </div>
+      </div>
+      <!-- Flow explanation -->
+      <div class="flow-cards-row">
+        <div class="flow-card-pdf no-break">
+          <div class="fc-num">01</div>
+          <h5>단일 진입점</h5>
+          <p>모든 클라이언트 요청을 API Gateway에서 통합 라우팅. WebSocket 트래픽도 Gateway에서 처리.</p>
+        </div>
+        <div class="flow-card-pdf no-break">
+          <div class="fc-num">02</div>
+          <h5>중앙 집중 설정</h5>
+          <p>Config Server가 모든 서비스 설정을 외부화. 환경별 설정 변경 시 재배포 불필요.</p>
+        </div>
+        <div class="flow-card-pdf no-break">
+          <div class="fc-num">03</div>
+          <h5>비동기 메시지</h5>
+          <p>채팅 메시지를 Kafka 브로드캐스트 + DB 저장으로 동시 처리하여 응답 속도 최적화.</p>
+        </div>
+        <div class="flow-card-pdf no-break">
+          <div class="fc-num">04</div>
+          <h5>자동 오토스케일링</h5>
+          <p>K8s HPA가 CPU 70% 임계점 감지 시 파드를 자동 확장(1→5). Readiness Probe로 준비 시점 제어.</p>
+        </div>
+      </div>
+    </div>
+  </div><!-- end page 1 -->
+  <div class="page-break"></div>
+  
+      <div class="pdf-page">
+    <!-- Tech Stack -->
+    <div class="section">
+      <div class="section-title-row">
+        <span class="section-tag-small">Tech Stack</span>
+        <h2 class="section-h2">기술 스택</h2>
+      </div>
+      <div class="stack-grid-pdf">
+        <div class="stack-cat">
+          <div class="stack-cat-title">🖥️ Backend</div>
+          <div class="stack-badges">
+            <span class="badge java">Java 17</span>
+            <span class="badge spring">Spring Boot 3.2</span>
+            <span class="badge spring">Spring Cloud</span>
+            <span class="badge spring">Spring Security</span>
+            <span class="badge spring">Spring WebFlux</span>
+            <span class="badge spring">OAuth2 + JWT</span>
+            <span class="badge spring">JPA + QueryDSL</span>
+            <span class="badge spring">Flyway</span>
+          </div>
+        </div>
+        <div class="stack-cat">
+          <div class="stack-cat-title">🗄️ Infrastructure</div>
+          <div class="stack-badges">
+            <span class="badge db">MySQL 8.0</span>
+            <span class="badge db">Redis</span>
+            <span class="badge kafka">Apache Kafka</span>
+            <span class="badge es">Elasticsearch 8.12</span>
+            <span class="badge docker">Docker</span>
+            <span class="badge nginx">Nginx</span>
+          </div>
+        </div>
+        <div class="stack-cat">
+          <div class="stack-cat-title">☸️ Kubernetes</div>
+          <div class="stack-badges">
+            <span class="badge k8s">Kubernetes</span>
+            <span class="badge k8s">HPA Autoscaling</span>
+            <span class="badge k8s">ConfigMap</span>
+            <span class="badge k8s">Readiness Probe</span>
+            <span class="badge k8s">k6 Load Test</span>
+          </div>
+        </div>
+        <div class="stack-cat">
+          <div class="stack-cat-title">📊 Monitoring</div>
+          <div class="stack-badges">
+            <span class="badge monitor">Prometheus</span>
+            <span class="badge monitor">Grafana</span>
+            <span class="badge monitor">Spring Actuator</span>
+            <span class="badge monitor">Micrometer</span>
+            <span class="badge monitor">AOP 로깅</span>
+          </div>
+        </div>
+        <div class="stack-cat">
+          <div class="stack-cat-title">🎨 Frontend</div>
+          <div class="stack-badges">
+            <span class="badge react">React 18</span>
+            <span class="badge react">TypeScript</span>
+            <span class="badge react">Vite</span>
+            <span class="badge react">Axios</span>
+            <span class="badge react">WebSocket</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+
+  <!-- ==================== PAGE 2 ==================== -->
+
+
+    <!-- Key Features -->
+    <div class="section">
+      <div class="section-title-row">
+        <span class="section-tag-small">Key Features</span>
+        <h2 class="section-h2">핵심 기능 구현</h2>
+      </div>
+      <div class="features-3col">
+
+        <!-- Auth -->
+        <div class="feat-card no-break">
+          <div class="feat-title">🔐 인증 시스템</div>
+          <div class="flow-steps-inline">
+            <div class="fs-step">
+              <div class="fs-num">1</div>
+              <div class="fs-content">React → <code>/api/auth/login</code> POST</div>
+            </div>
+            <div class="fs-step">
+              <div class="fs-num">2</div>
+              <div class="fs-content">Redis <code>users</code> 캐시 우선 확인</div>
+            </div>
+            <div class="fs-step">
+              <div class="fs-num">3</div>
+              <div class="fs-content">인증 성공 → AccessToken 생성·반환</div>
+            </div>
+            <div class="fs-step">
+              <div class="fs-num">4</div>
+              <div class="fs-content">이후 요청: <code>Authorization: Bearer</code> 헤더 검증</div>
+            </div>
+          </div>
+          <div class="feat-point">
+            <div class="feat-point-icon">🔑</div>
+            <div class="feat-point-text">
+              <strong>OAuth2 + JWT 하이브리드</strong>
+              Google 소셜 로그인과 자체 JWT 발급 동시 지원. placeholder 전략으로 빈 생성 문제 해결.
+            </div>
+          </div>
+          <div class="feat-point">
+            <div class="feat-point-icon">⚡</div>
+            <div class="feat-point-text">
+              <strong>Redis 캐싱으로 DB 부하 절감</strong>
+              @Cacheable로 유저 정보 캐싱. 매 요청 DB 조회를 인메모리로 대체.
+            </div>
+          </div>
+          <div class="feat-point">
+            <div class="feat-point-icon">🛡️</div>
+            <div class="feat-point-text">
+              <strong>WebSocket 전용 JWT 검증</strong>
+              HTTP 헤더 불가한 WS 환경에서 쿼리 파라미터(token)로 JWT 전달, 연결 시점 인증.
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat -->
+        <div class="feat-card no-break">
+          <div class="feat-title">💬 실시간 채팅</div>
+          <div class="flow-steps-inline">
+            <div class="fs-step">
+              <div class="fs-num">1</div>
+              <div class="fs-content">React → Nginx → Gateway → Chat-Server(8081)</div>
+            </div>
+            <div class="fs-step">
+              <div class="fs-num">2</div>
+              <div class="fs-content">ChatWebSocketHandler → <code>chat-messages</code> 토픽 Publish</div>
+            </div>
+            <div class="fs-step">
+              <div class="fs-num">3</div>
+              <div class="fs-content">Consumer1: 브로드캐스트 / Consumer2: MySQL 저장</div>
+            </div>
+            <div class="fs-step">
+              <div class="fs-num">4</div>
+              <div class="fs-content">Redis TTL 기반 온라인 상태 확인 후 알림 발송</div>
+            </div>
+          </div>
+          <div class="feat-point">
+            <div class="feat-point-icon">🚀</div>
+            <div class="feat-point-text">
+              <strong>WebFlux 논블로킹 아키텍처</strong>
+              Netty 기반으로 수천 개 동시 WebSocket 연결을 최소 스레드로 처리.
+            </div>
+          </div>
+          <div class="feat-point">
+            <div class="feat-point-icon">📡</div>
+            <div class="feat-point-text">
+              <strong>분산 환경 상태 관리</strong>
+              Redis TTL(Heartbeat)로 온라인 상태 관리. 서버 장애 시에도 상태 보존.
+            </div>
+          </div>
+          <div class="feat-point">
+            <div class="feat-point-icon">🔔</div>
+            <div class="feat-point-text">
+              <strong>Kafka 페이로드 최적화</strong>
+              notifiedEmails를 페이로드에 포함, Chat Server의 추가 DB 조회 없이 알림 대상 즉시 결정.
+            </div>
+          </div>
+        </div>
+
+        <!-- Board -->
+        <div class="feat-card no-break">
+          <div class="feat-title">📋 게시판 · 검색</div>
+          <div class="flow-steps-inline">
+            <div class="fs-step">
+              <div class="fs-num">1</div>
+              <div class="fs-content"><code>GET /api/boards</code> → AOP PerformanceAspect 시작</div>
+            </div>
+            <div class="fs-step">
+              <div class="fs-num">2</div>
+              <div class="fs-content">Spring Cache AOP → <code>boards::0-10</code> 키로 캐시 조회</div>
+            </div>
+            <div class="fs-step">
+              <div class="fs-num">3</div>
+              <div class="fs-content">Cache Miss → MySQL + Redis 저장 / Hit → 즉각 반환</div>
+            </div>
+            <div class="fs-step">
+              <div class="fs-num">4</div>
+              <div class="fs-content">작성/수정/삭제 시 ES 인덱스 즉시 업데이트</div>
+            </div>
+          </div>
+          <div class="feat-point">
+            <div class="feat-point-icon">🔍</div>
+            <div class="feat-point-text">
+              <strong>ES + Nori 한글 검색</strong>
+              LIKE 대비 압도적 성능. 형태소 분석으로 '검색어'로 '검색 엔진' 탐색 가능.
+            </div>
+          </div>
+          <div class="feat-point">
+            <div class="feat-point-icon">💾</div>
+            <div class="feat-point-text">
+              <strong>Redis 페이징 캐싱</strong>
+              BoardResponseDto Serializable 구현으로 직렬화 문제 해결. 캐시 히트 시 DB 쿼리 0회.
+            </div>
+          </div>
+          <div class="feat-point">
+            <div class="feat-point-icon">🔐</div>
+            <div class="feat-point-text">
+              <strong>권한 기반 접근 제어</strong>
+              작성자 또는 ADMIN만 수정/삭제 가능하도록 Spring Security 계층에서 제어.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Monitor as 4th card full-width but compact -->
+      <div class="feat-card no-break" style="margin-top: 8px;">
+        <div class="feat-title">📊 성능 모니터링 (AOP 기반)</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <div class="flow-steps-inline">
+            <div class="fs-step"><div class="fs-num">1</div><div class="fs-content">PerformanceAspect @Around가 Service 계층 메서드 시작 시간 기록</div></div>
+            <div class="fs-step"><div class="fs-num">2</div><div class="fs-content">joinPoint.proceed() → 타겟 메서드 실행</div></div>
+            <div class="fs-step"><div class="fs-num">3</div><div class="fs-content">소요 시간 계산. 10ms 이하 → Cache Hit 간주</div></div>
+            <div class="fs-step"><div class="fs-num">4</div><div class="fs-content">TransactionTemplate + REQUIRES_NEW로 성능 로그 독립 저장</div></div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <div class="feat-point"><div class="feat-point-icon">🎯</div><div class="feat-point-text"><strong>비즈니스 로직 무침범</strong>AOP로 서비스 코드에 로깅 코드 한 줄도 추가하지 않고 전 구간 성능 측정.</div></div>
+            <div class="feat-point"><div class="feat-point-icon">🔒</div><div class="feat-point-text"><strong>트랜잭션 격리 (핵심 트러블슈팅)</strong>readOnly 환경의 쓰기 예외를 REQUIRES_NEW로 완전 격리. 시스템 안정성 확보.</div></div>
+            <div class="feat-point"><div class="feat-point-icon">📈</div><div class="feat-point-text"><strong>Prometheus + Grafana 대시보드</strong>Actuator + Micrometer로 메트릭 수집. RPS, 응답시간, CPU/메모리 시각화.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- end page 2 -->
+  <div class="page-break"></div>
+
+  <!-- ==================== PAGE 3 ==================== -->
+  <div class="pdf-page">
+
+    <!-- Trouble Shooting -->
+    <div class="section">
+      <div class="section-title-row">
+        <span class="section-tag-small">Trouble Shooting</span>
+        <h2 class="section-h2">핵심 트러블슈팅</h2>
+      </div>
+
+      <div class="trouble-list">
+
+        <!-- TS 1 -->
+        <div class="ts-card critical no-break">
+          <div class="ts-header">
+            <div class="ts-num">#01</div>
+            <div class="ts-title-block">
+              <span class="ts-badge critical">🔥 HIGH IMPACT</span>
+              <div class="ts-h3">AOP 성능 로깅 ↔ ReadOnly 트랜잭션 충돌</div>
+            </div>
+          </div>
+          <div class="ts-grid">
+            <div class="ts-item">
+              <span class="ts-label symptom">증상</span>
+              <p>게시판 목록 조회 시 <code>500 Internal Server Error</code> 발생, 강제 로그인 화면 리다이렉트</p>
+            </div>
+            <div class="ts-item">
+              <span class="ts-label cause">원인</span>
+              <p><code>@Transactional(readOnly=true)</code> 환경에서 PerformanceAspect가 DB에 <code>save()</code> 시도 → Hibernate가 쓰기 차단</p>
+            </div>
+            <div class="ts-item">
+              <span class="ts-label solution">해결</span>
+              <p><code>TransactionTemplate</code> + <code>PROPAGATION_REQUIRES_NEW</code>로 성능 로그 저장을 완전히 격리된 새 트랜잭션으로 분리</p>
+            </div>
+          </div>
+          <div class="ts-code-inline">
+            <pre><span class="c-comment">// Before: 메인 트랜잭션과 충돌</span>
+performanceLogRepository.save(log);  <span class="c-comment">// ❌ readOnly 트랜잭션에서 쓰기</span>
+<span class="c-comment">// After: 독립된 격리 트랜잭션</span>
+transactionTemplate.setPropagationBehavior(PROPAGATION_REQUIRES_NEW);
+transactionTemplate.execute(status -> { performanceLogRepository.save(log); return null; }); <span class="c-comment">// ✅</span></pre>
+          </div>
+        </div>
+
+        <!-- TS 2 -->
+        <div class="ts-card high no-break">
+          <div class="ts-header">
+            <div class="ts-num">#02</div>
+            <div class="ts-title-block">
+              <span class="ts-badge high">⚡ PERFORMANCE</span>
+              <div class="ts-h3">HikariCP 데드락 (K8s 부하 테스트)</div>
+            </div>
+          </div>
+          <div class="ts-grid">
+            <div class="ts-item">
+              <span class="ts-label symptom">증상</span>
+              <p>K6 500명 동시 요청 시 <code>Connection is not available, request timed out after 30000ms</code> 대량 발생, 에러율 100%</p>
+            </div>
+            <div class="ts-item">
+              <span class="ts-label cause">원인</span>
+              <p>Tomcat 스레드 200개가 각각 커넥션 점유. REQUIRES_NEW가 같은 스레드에서 2번째 커넥션 요구 → 교착상태(Deadlock)</p>
+            </div>
+            <div class="ts-item">
+              <span class="ts-label solution">해결</span>
+              <p>Tomcat 최대 스레드 50개 제한 + HikariCP 풀 150으로 확장 + MySQL <code>max_connections=2000</code> 상향. 스레드 수 &lt; 커넥션 수 유지로 데드락 원천 차단</p>
+            </div>
+          </div>
+          <div class="ts-code-inline">
+            <pre><span class="c-comment"># ConfigMap (backend-dev.yml) 수정</span>
+server.tomcat.threads.max=50                          <span class="c-comment"># 스레드 제한 (200→50)</span>
+spring.datasource.hikari.maximum-pool-size=150        <span class="c-comment"># 풀 확장</span></pre>
+          </div>
+        </div>
+
+        <!-- TS 3 -->
+        <div class="ts-card high no-break">
+          <div class="ts-header">
+            <div class="ts-num">#03</div>
+            <div class="ts-title-block">
+              <span class="ts-badge high">🌐 MSA</span>
+              <div class="ts-h3">Kafka Advertised Listener K8s 통신 불가</div>
+            </div>
+          </div>
+          <div class="ts-grid">
+            <div class="ts-item">
+              <span class="ts-label symptom">증상</span>
+              <p>K6 부하 테스트 p95 응답시간 <strong>18.5초</strong>, 에러율 100%. 백엔드 로그에 Kafka 연결 타임아웃 무한 반복</p>
+            </div>
+            <div class="ts-item">
+              <span class="ts-label cause">원인</span>
+              <p>Kafka가 <code>ADVERTISED_LISTENERS</code>로 <code>localhost:9092</code> 반환 → K8s 파드 내부에서 자기 자신을 찌르며 60초 타임아웃 무한 대기</p>
+            </div>
+            <div class="ts-item">
+              <span class="ts-label solution">해결</span>
+              <p><code>KAFKA_ADVERTISED_LISTENERS</code>를 <code>host.docker.internal:9092</code>로 수정하여 파드가 호스트 머신의 Kafka에 정확히 도달하도록 통신 경로 수정</p>
+            </div>
+          </div>
+          <div class="ts-code-inline">
+            <pre><span class="c-comment"># docker-compose.yml</span>
+<span class="c-comment">Before:</span> KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092  <span class="c-comment">❌</span>
+<span class="c-comment">After: </span> KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://host.docker.internal:9092  <span class="c-comment">✅</span></pre>
+          </div>
+        </div>
+</br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+        <!-- TS 4 & 5 side by side -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <div class="ts-card medium no-break">
+            <div class="ts-header">
+              <div class="ts-num">#04</div>
+              <div class="ts-title-block">
+                <span class="ts-badge medium">🔄 K8s</span>
+                <div class="ts-h3">HPA 스케일아웃 중 EOF 에러</div>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              <div class="ts-item"><span class="ts-label symptom">증상</span><p>트래픽 급증 시 211초 부근에서 1.85% EOF 에러 발생</p></div>
+              <div class="ts-item"><span class="ts-label cause">원인</span><p>K8s가 컨테이너 시작 즉시 파드 준비 완료 판단 → Spring Boot 로딩 중 트래픽 전달 → 소켓 거부(EOF)</p></div>
+              <div class="ts-item"><span class="ts-label solution">해결</span><p><code>readinessProbe</code> + <code>livenessProbe</code> 추가. TCP 포트 8080 실제 열릴 때까지 트래픽 대기 → 에러율 0%</p></div>
+            </div>
+            <div class="ts-code-inline">
+              <pre>readinessProbe:
+  tcpSocket:
+    port: 8080
+  initialDelaySeconds: 20   <span class="c-comment"># Spring Boot 기동 대기</span>
+  periodSeconds: 5</pre>
+            </div>
+          </div>
+
+          <div class="ts-card medium no-break">
+            <div class="ts-header">
+              <div class="ts-num">#05</div>
+              <div class="ts-title-block">
+                <span class="ts-badge medium">🗄️ ES</span>
+                <div class="ts-h3">Elasticsearch Race Condition</div>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              <div class="ts-item"><span class="ts-label symptom">증상</span><p>파드 1→5개 스케일아웃 시 15~19초 구간에 다수 EOF, 파드 4개 RESTARTS 증가</p></div>
+              <div class="ts-item"><span class="ts-label cause">원인</span><p>4개 파드 동시에 ES <code>boards</code> 인덱스 자동 생성 시도 → 1개만 성공, 나머지 3개 <code>resource_already_exists_exception</code>으로 Crash</p></div>
+              <div class="ts-item"><span class="ts-label solution">해결</span><p>K8s Self-Healing으로 파드 자동 재시작. 2차 기동 시 인덱스 존재 → 정상 구동. K8s 자가 치유 메커니즘 실체험</p></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TS 6 -->
+        <div class="ts-card medium no-break">
+          <div class="ts-header">
+            <div class="ts-num">#06</div>
+            <div class="ts-title-block">
+              <span class="ts-badge medium">🔗 Bean</span>
+              <div class="ts-h3">연쇄 Bean 생성 실패 (3단계 순차 해결)</div>
+            </div>
+          </div>
+          <div class="ts-grid">
+            <div class="ts-item">
+              <span class="ts-label symptom">증상</span>
+              <p><code>UnsatisfiedDependencyException</code> 연쇄 발생으로 Spring Boot 기동 완전 실패</p>
+            </div>
+            <div class="ts-item">
+              <span class="ts-label cause">원인</span>
+              <p>① Flyway 이력 없음 → JPA 빈 실패<br/>② ES @Id 잘못 임포트 → ES Repository 실패<br/>③ OAuth2 설정 누락 → ClientRegistration 실패</p>
+            </div>
+            <div class="ts-item">
+              <span class="ts-label solution">해결</span>
+              <p>스택 트레이스 역추적으로 근본 원인 순차 식별: ① <code>baseline-on-migrate: true</code> → ② <code>springframework.data.annotation.Id</code>로 수정 → ③ OAuth2 placeholder 추가</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- K8s Section -->
+    <div class="section">
+      <div class="section-title-row">
+        <span class="section-tag-small">Kubernetes + Load Test</span>
+        <h2 class="section-h2">K8s 배포 &amp; 부하 테스트</h2>
+      </div>
+      <div class="k8s-two-col">
+        <!-- Timeline -->
+        <div>
+          <div class="k8s-timeline-pdf">
+            <div class="k8s-step-pdf">
+              <div class="k8s-phase">Phase 1</div>
+              <div class="k8s-step-body-pdf">
+                <h5>ConfigMap 전환</h5>
+                <p>로컬 파일 시스템 설정을 K8s ConfigMap으로 변환.</p>
+                <div class="k8s-cmd-pdf">kubectl create configmap config-repo-files --from-file=./config-repo</div>
+              </div>
+            </div>
+            <div class="k8s-step-pdf">
+              <div class="k8s-phase">Phase 2</div>
+              <div class="k8s-step-body-pdf">
+                <h5>서비스 간 통신 설정</h5>
+                <p>K8s 내부 DNS로 서비스 간 통신 경로 재설정.</p>
+                <div class="k8s-cmd-pdf">SPRING_CONFIG_IMPORT: configserver:http://config-server:8888</div>
+              </div>
+            </div>
+            <div class="k8s-step-pdf">
+              <div class="k8s-phase">Phase 3</div>
+              <div class="k8s-step-body-pdf">
+                <h5>HPA 오토스케일링 구성</h5>
+                <p>CPU 70% 임계점, 최소 1개 ~ 최대 5개 파드 자동 확장.</p>
+                <div class="k8s-cmd-pdf">kubectl apply -f hpa.yaml  # CPU 70%, min:1, max:5</div>
+              </div>
+            </div>
+            <div class="k8s-step-pdf">
+              <div class="k8s-phase">Phase 4</div>
+              <div class="k8s-step-body-pdf">
+                <h5>k6 부하 테스트 &amp; 검증</h5>
+                <p>500명 동시 가상 유저 부하 테스트. 트러블슈팅 후 최종 에러율 0% 달성.</p>
+                <div class="k8s-cmd-pdf">k6 run --vus 500 --duration 300s k6-scaling-test.js</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div>
+          <div class="result-cards-pdf">
+            <div class="rc-card">
+              <div class="rc-num">271</div>
+              <div class="rc-label">최고 처리량 (RPS)</div>
+              <div class="rc-sub">초당 요청 처리</div>
+            </div>
+            <div class="rc-card">
+              <div class="rc-num">0%</div>
+              <div class="rc-label">최종 에러율</div>
+              <div class="rc-sub">Readiness Probe 적용 후</div>
+            </div>
+            <div class="rc-card">
+              <div class="rc-num">1→5</div>
+              <div class="rc-label">파드 자동 확장</div>
+              <div class="rc-sub">HPA 트리거 확인</div>
+            </div>
+            <div class="rc-card">
+              <div class="rc-num">8건</div>
+              <div class="rc-label">K8s 트러블슈팅</div>
+              <div class="rc-sub">전수 해결 완료</div>
+            </div>
+          </div>
+          <div class="journey-pdf">
+            <div class="jstep">초기 구성</div>
+            <div class="jarrow">→</div>
+            <div class="jstep">Config 이슈 해결</div>
+            <div class="jarrow">→</div>
+            <div class="jstep">Kafka 통신 수정</div>
+            <div class="jarrow">→</div>
+            <div class="jstep">HikariCP 데드락 해결</div>
+            <div class="jarrow">→</div>
+            <div class="jstep">Readiness Probe 추가</div>
+            <div class="jarrow">→</div>
+            <div class="jstep final">에러율 0% 🎉</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- end page 3 -->
+
+</body>
+</html>
