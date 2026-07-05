@@ -22,9 +22,6 @@ target/
 .settings/
 .classpath
 .project
-docs
-config-repo
-portfolio
 
 
 # ============================
@@ -75,8 +72,10 @@ Desktop.ini
 
 # ============================
 # 로컬 전용 문서/설정 (의도적으로 제외)
-# docs/       → 포트폴리오 문서: 공유 필요 시 아래 주석 해제
+# docs/       → 포트폴리오 문서
 # config-repo → Config Server 설정: 별도 저장소 또는 보안상 제외
+# portfolio/  → 포트폴리오 문서 (PORTFOLIO_POINTS.md 등)
 # ============================
 docs
 config-repo
+portfolio

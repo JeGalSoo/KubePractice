@@ -63,8 +63,6 @@ React 프론트엔드와 Spring Boot 기반의 분산 백엔드 서버로 구성
 
 ## 🔥 핵심 트러블슈팅 (Trouble Shooting)
 
-프로젝트 개발 간 마주친 주요 문제와 해결 과정은 [PORTFOLIO_POINTS.md](./PORTFOLIO_POINTS.md) 에 상세히 기록되어 있습니다.
-
 **주요 해결 사례 요약:**
 *   **AOP 성능 로깅과 읽기 전용 트랜잭션 충돌 해결:** `@Transactional(readOnly = true)` 환경에서 성능 로그를 DB에 저장하려다 발생한 예외를 `TransactionTemplate`과 `PROPAGATION_REQUIRES_NEW`를 도입하여 트랜잭션을 격리함으로써 해결.
 *   **MSA 분산 환경의 WebSocket CORS 및 페이징 이슈:** 백엔드 채팅 서버 분리 후 발생한 브라우저 CORS 연결 거부 문제를 WebFlux `SimpleUrlHandlerMapping` 설정으로 해결. 웹소켓 상의 `Pageable` 객체 파싱 오류를 REST API 분리 및 프론트엔드 역순 정렬 렌더링으로 극복.
