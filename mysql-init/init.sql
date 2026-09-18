@@ -9,6 +9,13 @@
 
 USE authdb;
 
+-- ============================================================
+-- reservationdb 생성 (콘서트 예매 서버용)
+-- ============================================================
+CREATE DATABASE IF NOT EXISTS reservationdb DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+GRANT ALL PRIVILEGES ON reservationdb.* TO 'authuser'@'%';
+FLUSH PRIVILEGES;
+
 -- users 테이블이 없으면 삽입을 건너뜁니다 (Flyway/JPA가 먼저 스키마를 생성)
 -- INSERT IGNORE를 사용하여 이미 존재하는 계정은 덮어쓰지 않습니다.
 

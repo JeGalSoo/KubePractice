@@ -1,2 +1,2 @@
 rootProject.name = 'portfolio-backend'
-include 'backend', 'chat-server', 'gateway-server', 'config-server', 'batch-server'
+include 'backend', 'chat-server', 'gateway-server', 'config-server', 'batch-server', 'reservation-server'

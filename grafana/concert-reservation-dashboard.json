@@ -1,0 +1,199 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "Prometheus",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__requires": [
+    { "type": "grafana", "id": "grafana", "name": "Grafana", "version": "9.0.0" },
+    { "type": "datasource", "id": "prometheus", "name": "Prometheus", "version": "1.0.0" },
+    { "type": "panel", "id": "timeseries", "name": "Time series", "version": "" },
+    { "type": "panel", "id": "stat", "name": "Stat", "version": "" },
+    { "type": "panel", "id": "gauge", "name": "Gauge", "version": "" }
+  ],
+  "title": "🎵 콘서트 티켓팅 성능 분석",
+  "uid": "concert-reservation-perf",
+  "description": "3가지 예약 전략(DB_LOCK / REDIS_LOCK / KAFKA) TPS, 응답시간, 오류율 비교",
+  "tags": ["concert", "reservation", "performance"],
+  "timezone": "Asia/Seoul",
+  "refresh": "5s",
+  "time": { "from": "now-30m", "to": "now" },
+  "panels": [
+    {
+      "id": 1,
+      "title": "⚡ 예약 TPS (전략별)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [
+        {
+          "expr": "rate(concert_reservation_success_total{strategy=\"DB_LOCK\"}[1m])",
+          "legendFormat": "🔒 DB_LOCK TPS"
+        },
+        {
+          "expr": "rate(concert_reservation_success_total{strategy=\"REDIS_LOCK\"}[1m])",
+          "legendFormat": "⚡ REDIS_LOCK TPS"
+        },
+        {
+          "expr": "rate(concert_reservation_success_total{strategy=\"KAFKA\"}[1m])",
+          "legendFormat": "🚀 KAFKA TPS"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "lineWidth": 2, "fillOpacity": 15 },
+          "unit": "reqps"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "title": "⏱ p95 응답시간 비교 (전략별)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, rate(concert_reservation_duration_seconds_bucket{strategy=\"DB_LOCK\"}[1m])) * 1000",
+          "legendFormat": "🔒 DB_LOCK p95"
+        },
+        {
+          "expr": "histogram_quantile(0.95, rate(concert_reservation_duration_seconds_bucket{strategy=\"REDIS_LOCK\"}[1m])) * 1000",
+          "legendFormat": "⚡ REDIS_LOCK p95"
+        },
+        {
+          "expr": "histogram_quantile(0.95, rate(concert_reservation_duration_seconds_bucket{strategy=\"KAFKA\"}[1m])) * 1000",
+          "legendFormat": "🚀 KAFKA p95"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "ms" }
+      }
+    },
+    {
+      "id": 3,
+      "title": "💥 좌석 충돌 & 오류 (전략별)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [
+        {
+          "expr": "rate(concert_reservation_failure_total{strategy=\"DB_LOCK\"}[1m])",
+          "legendFormat": "🔒 DB_LOCK 실패"
+        },
+        {
+          "expr": "rate(concert_reservation_failure_total{strategy=\"REDIS_LOCK\"}[1m])",
+          "legendFormat": "⚡ REDIS_LOCK 실패"
+        },
+        {
+          "expr": "rate(concert_reservation_failure_total{strategy=\"KAFKA\"}[1m])",
+          "legendFormat": "🚀 KAFKA 실패"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "reqps" }
+      }
+    },
+    {
+      "id": 4,
+      "title": "🎫 Kafka 예약 확정 처리량",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 },
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [
+        {
+          "expr": "rate(concert_reservation_kafka_confirmed_total[1m])",
+          "legendFormat": "✅ 확정 처리"
+        },
+        {
+          "expr": "rate(concert_reservation_kafka_failed_total[1m])",
+          "legendFormat": "❌ 확정 실패"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "👥 현재 대기열 인원",
+      "type": "gauge",
+      "gridPos": { "h": 8, "w": 6, "x": 12, "y": 16 },
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [
+        {
+          "expr": "concert_queue_size",
+          "legendFormat": "대기 중"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "max": 10000,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 500 },
+              { "color": "red", "value": 2000 }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 6,
+      "title": "📊 JVM 스레드 수",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 6, "x": 18, "y": 16 },
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [
+        {
+          "expr": "jvm_threads_live_threads{application=\"reservation-server\"}",
+          "legendFormat": "활성 스레드"
+        },
+        {
+          "expr": "jvm_threads_peak_threads{application=\"reservation-server\"}",
+          "legendFormat": "최대 스레드"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "📈 p50 / p95 / p99 응답시간 (실시간)",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 24 },
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.50, rate(concert_reservation_duration_seconds_bucket[5m])) * 1000",
+          "legendFormat": "p50 (ms)"
+        },
+        {
+          "expr": "histogram_quantile(0.95, rate(concert_reservation_duration_seconds_bucket[5m])) * 1000",
+          "legendFormat": "p95 (ms)"
+        },
+        {
+          "expr": "histogram_quantile(0.99, rate(concert_reservation_duration_seconds_bucket[5m])) * 1000",
+          "legendFormat": "p99 (ms)"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "ms" }
+      }
+    }
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "DS_PROMETHEUS",
+        "type": "datasource",
+        "query": "prometheus",
+        "label": "Prometheus"
+      }
+    ]
+  }
+}

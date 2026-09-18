@@ -37,3 +37,11 @@ scrape_configs:
       - targets: ['gateway-server:8000']
       # [로컬 Docker Compose]
       # - targets: ['host.docker.internal:8000']
+
+  - job_name: 'reservation-server'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      # [K8s / Docker Compose]
+      - targets: ['reservation-server:8082']
+      # [로컬 개발 직접 실행]
+      # - targets: ['host.docker.internal:8082']
